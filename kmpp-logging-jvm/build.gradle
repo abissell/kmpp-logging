@@ -1,0 +1,20 @@
+apply plugin: 'kotlin-platform-jvm'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs = ['src', '../common/src']
+        }
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "com.github.lewik.logging:klogging.jvm:$klogging_version"
+    expectedBy project(':kmpp-logging-common')
+}

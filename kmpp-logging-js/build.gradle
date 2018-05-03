@@ -1,0 +1,29 @@
+apply plugin: 'kotlin-platform-js'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs = ['src', '../common/src']
+        }
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "com.github.lewik.logging:klogging.js:$klogging_version"
+    expectedBy project(':kmpp-logging-common')
+}
+
+def target = "${projectDir}/build/classes/main"
+
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$target/kmpp-logging.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'umd'
+}

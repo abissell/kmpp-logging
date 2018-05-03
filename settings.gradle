@@ -1,0 +1,4 @@
+rootProject.name = 'kmpp-logging'
+include ':kmpp-logging-jvm'
+include ':kmpp-logging-js'
+include ':kmpp-logging-common'
