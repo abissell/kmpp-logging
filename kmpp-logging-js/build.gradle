@@ -3,20 +3,32 @@ apply plugin: 'kotlin-platform-js'
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 sourceSets {
     main {
         kotlin {
-            srcDirs = ['src', '../common/src']
+            srcDirs = ['src']
+        }
+    }
+    test {
+        kotlin {
+            srcDirs = ['test']
         }
     }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "com.github.lewik.logging:klogging.js:$klogging_version"
+    compile "com.github.lewik.klogging:klogging.js:$klogging_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     expectedBy project(':kmpp-logging-common')
+}
+
+test {
+    testLogging.showStandardStreams = true
 }
 
 def target = "${projectDir}/build/classes/main"

@@ -3,6 +3,7 @@ apply plugin: 'kotlin-platform-common'
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 sourceSets {
@@ -11,9 +12,20 @@ sourceSets {
             srcDirs = ['src']
         }
     }
+    test {
+        kotlin {
+            srcDirs = ['test']
+        }
+    }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-    compile "com.github.lewik.logging:klogging.common:$klogging_version"
+    compile "com.github.lewik.klogging:klogging.common:$klogging_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+}
+
+test {
+    testLogging.showStandardStreams = true
 }
