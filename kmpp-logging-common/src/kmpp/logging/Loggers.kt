@@ -9,24 +9,20 @@ abstract class Log {
 }
 
 private fun initObjectLogger(obj: Any): KLogger {
-    println("initialClassName: ${obj::class}")
     val className = obj::class.toString()
         .removeCommonPrefixAndSuffix()
         .removeCompanionSuffix()
-    println("className: $className")
     return KLoggers.logger(className)
 }
 
 private fun String.removeCompanionSuffix() = this.removeSuffix("\$Companion")
 
 fun initTopLevelLogger(obj: Any): KLogger {
-    println("initialClassName: ${obj::class}")
     val className = obj::class.toString()
         .removeCommonPrefixAndSuffix()
         .removeNumeralSuffix()
         .removeLoggerNameSuffix()
         .removeKtSuffix()
-    println("className: $className")
     return KLoggers.logger(className)
 }
 
