@@ -12,3 +12,87 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
+plugins {
+    id "com.jfrog.bintray" version "1.8.0"
+}
+
+apply plugin: "com.jfrog.bintray"
+apply plugin: "maven"
+apply plugin: "maven-publish"
+
+bintray {
+    user = "blah"
+    key = "blah"
+    pkg {
+        repo = 'kmpp-logging'
+        name = 'kmpp-logging'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/abissell/kmpp-logging'
+        version {
+            name = '1.2.31'
+            vcsTag = '1.2.31'
+        }
+    }
+    publications = ['jvm','js','common']
+}
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "abissell"
+            name "Andrew Bissell"
+            email "abissell@gmail.com"
+        }
+    }
+
+    scm {
+       url "https://github.com/abissell/kmpp-logging"
+    }
+}
+
+publishing {
+    publications {
+        jvm(MavenPublication) {
+            from findProject("kmpp-logging-jvm").components.java
+            // artifact sourcesJar
+            // artifact javadocJar
+            groupId 'com.github.abissell'
+            artifactId 'kmpp-logging-jvm'
+            version '1.2.31'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Your description of the lib')
+                root.appendNode('name', 'Your name of the lib')
+                root.appendNode('url', 'https://site_for_lib.tld')
+                root.children().last() + pomConfig
+            }
+        }
+
+        js(MavenPublication) {
+            from findProject("kmpp-logging-js").components.java
+            // artifact sourcesJar
+            // artifact javadocJar
+            groupId 'com.github.abissell'
+            artifactId 'kmpp-logging-js'
+            version '1.2.31'
+        }
+
+        common(MavenPublication) {
+            from findProject("kmpp-logging-common").components.java
+            // artifact sourcesJar
+            // artifact javadocJar
+            groupId 'com.github.abissell'
+            artifactId 'kmpp-logging-common'
+            version '1.2.31'
+        }
+    }
+}
