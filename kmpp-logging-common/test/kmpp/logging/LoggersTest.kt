@@ -3,6 +3,10 @@ package kmpp.logging
 import kotlin.test.Test
 import kotlin.test.assertSame
 
+/**
+ * @author Andrew Bissell
+ */
+
 private val logger = initTopLevelLogger {}
 
 class LoggersTest {

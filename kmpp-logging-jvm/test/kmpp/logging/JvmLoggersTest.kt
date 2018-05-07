@@ -5,6 +5,10 @@ import java.io.PrintStream
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * @author Andrew Bissell
+ */
+
 private val topLevelLogger = initTopLevelLogger {}
 
 class JvmLoggersTest {
