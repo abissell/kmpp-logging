@@ -1,4 +1,4 @@
-package kmpp.logging
+package kmulti.logging
 
 import kotlin.test.Test
 import kotlin.test.assertSame

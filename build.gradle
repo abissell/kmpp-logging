@@ -15,7 +15,7 @@ buildscript {
 }
 
 allprojects {
-    group 'io.github.kmpp'
+    group 'io.github.kmulti'
     version '1.2.31'
 
     repositories {
@@ -36,7 +36,7 @@ subprojects {
             from sourceSets.main.kotlin
             duplicatesStrategy = "exclude"
             def platformSrc = sourceSets.main.kotlin
-            def commonSrc = project(':kmpp-logging-common').sourceSets.main.kotlin
+            def commonSrc = project(':kmulti-logging-common').sourceSets.main.kotlin
             from (platformSrc + commonSrc)
         }
 
@@ -53,14 +53,14 @@ subprojects {
 
     // Create the pom configuration:
     def pomConfig = {
-        name "kmpp-logging"
-        description "kmpp-logging $version - Multiplatform logging for Kotlin"
-        url "https://github.com/kmpp/kmpp-logging"
+        name "kmulti-logging"
+        description "kmulti-logging $version - Multiplatform logging for Kotlin"
+        url "https://github.com/kmulti/kmulti-logging"
 
         scm {
-            url "https://github.com/kmpp/kmpp-logging/tree/master"
-            connection "scm:git:git://github.com/kmpp/kmpp-logging.git"
-            developerConnection "scm:git:ssh://github.com:kmpp/kmpp-logging.git"
+            url "https://github.com/kmulti/kmulti-logging/tree/master"
+            connection "scm:git:git://github.com/kmulti/kmulti-logging.git"
+            developerConnection "scm:git:ssh://github.com:kmulti/kmulti-logging.git"
         }
         licenses {
             license {
@@ -87,7 +87,7 @@ subprojects {
 
                 pom.withXml {
                     def root = asNode()
-                    root.appendNode('description', "kmpp-logging $version - Multiplatform logging for Kotlin")
+                    root.appendNode('description', "kmulti-logging $version - Multiplatform logging for Kotlin")
                     root.children().last() + pomConfig
                 }
 
@@ -107,18 +107,18 @@ subprojects {
         key = System.getProperty('bintray.key')
         publications = ['mavenProject']
         pkg {
-            repo = 'kmpp-logging'
-            name = 'kmpp-logging'
-            userOrg = 'kmpp'
+            repo = 'kmulti-logging'
+            name = 'kmulti-logging'
+            userOrg = 'kmulti'
             licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/kmpp/kmpp-logging'
-            websiteUrl = 'https://github.com/kmpp/kmpp-logging'
-            issueTrackerUrl = 'https://github.com/kmpp/kmpp-logging/issues'
+            vcsUrl = 'https://github.com/kmulti/kmulti-logging'
+            websiteUrl = 'https://github.com/kmulti/kmulti-logging'
+            issueTrackerUrl = 'https://github.com/kmulti/kmulti-logging/issues'
 
-            githubRepo = 'kmpp/kmpp-logging'
+            githubRepo = 'kmulti/kmulti-logging'
             version {
                 name = project.version
-                desc = "kmpp-logging - Multiplatform logging for Kotlin"
+                desc = "kmulti-logging - Multiplatform logging for Kotlin"
                 released = new Date()
             }
         }

@@ -1,4 +1,4 @@
-package kmpp.logging
+package kmulti.logging
 
 import klogging.KLogger
 import klogging.KLoggers

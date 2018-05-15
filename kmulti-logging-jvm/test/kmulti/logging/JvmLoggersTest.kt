@@ -1,4 +1,4 @@
-package kmpp.logging
+package kmulti.logging
 
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream

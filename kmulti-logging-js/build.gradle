@@ -16,7 +16,7 @@ dependencies {
     compile "com.github.lewik.klogging:klogging.js:$klogging_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    expectedBy project(':kmpp-logging-common')
+    expectedBy project(':kmulti-logging-common')
 }
 
 test {
@@ -27,7 +27,7 @@ def target = "${projectDir}/build/classes/main"
 
 compileKotlin2Js {
     kotlinOptions.metaInfo = true
-    kotlinOptions.outputFile = "$target/kmpp-logging.js"
+    kotlinOptions.outputFile = "$target/kmulti-logging.js"
     kotlinOptions.sourceMap = true
     kotlinOptions.moduleKind = 'umd'
 }
