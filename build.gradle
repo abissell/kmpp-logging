@@ -10,89 +10,117 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0"
     }
 }
 
-plugins {
-    id "com.jfrog.bintray" version "1.8.0"
+allprojects {
+    group 'io.github.kmpp'
+    version '1.2.31'
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-apply plugin: "com.jfrog.bintray"
-apply plugin: "maven"
-apply plugin: "maven-publish"
+apply plugin: "kotlin"
 
-bintray {
-    user = "blah"
-    key = "blah"
-    pkg {
-        repo = 'kmpp-logging'
-        name = 'kmpp-logging'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/abissell/kmpp-logging'
-        version {
-            name = '1.2.31'
-            vcsTag = '1.2.31'
+subprojects {
+
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
+
+    afterEvaluate {
+        task sourceJar(type: Jar, dependsOn: classes) {
+            classifier 'sources'
+            from sourceSets.main.kotlin
+            duplicatesStrategy = "exclude"
+            def platformSrc = sourceSets.main.kotlin
+            def commonSrc = project(':kmpp-logging-common').sourceSets.main.kotlin
+            from (platformSrc + commonSrc)
         }
-    }
-    publications = ['jvm','js','common']
-}
 
-// Create the pom configuration:
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id "abissell"
-            name "Andrew Bissell"
-            email "abissell@gmail.com"
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            classifier = 'javadoc'
+            from javadoc.destinationDir
         }
     }
 
-    scm {
-       url "https://github.com/abissell/kmpp-logging"
+    def varintName = "${project.name}"
+    tasks.withType(Jar) {
+        archivesBaseName = varintName
     }
-}
 
-publishing {
-    publications {
-        jvm(MavenPublication) {
-            from findProject("kmpp-logging-jvm").components.java
-            // artifact sourcesJar
-            // artifact javadocJar
-            groupId 'com.github.abissell'
-            artifactId 'kmpp-logging-jvm'
-            version '1.2.31'
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Your description of the lib')
-                root.appendNode('name', 'Your name of the lib')
-                root.appendNode('url', 'https://site_for_lib.tld')
-                root.children().last() + pomConfig
+    // Create the pom configuration:
+    def pomConfig = {
+        name "kmpp-logging"
+        description "kmpp-logging $version - Multiplatform logging for Kotlin"
+        url "https://github.com/kmpp/kmpp-logging"
+
+        scm {
+            url "https://github.com/kmpp/kmpp-logging/tree/master"
+            connection "scm:git:git://github.com/kmpp/kmpp-logging.git"
+            developerConnection "scm:git:ssh://github.com:kmpp/kmpp-logging.git"
+        }
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
             }
         }
-
-        js(MavenPublication) {
-            from findProject("kmpp-logging-js").components.java
-            // artifact sourcesJar
-            // artifact javadocJar
-            groupId 'com.github.abissell'
-            artifactId 'kmpp-logging-js'
-            version '1.2.31'
+        developers {
+            developer {
+                id "abissell"
+                name "Andrew Bissell"
+                email "abissell@gmail.com"
+            }
         }
+    }
 
-        common(MavenPublication) {
-            from findProject("kmpp-logging-common").components.java
-            // artifact sourcesJar
-            // artifact javadocJar
-            groupId 'com.github.abissell'
-            artifactId 'kmpp-logging-common'
-            version '1.2.31'
+    publishing {
+        publications {
+            mavenProject(MavenPublication) {
+                from components.java
+                groupId project.group
+                artifactId varintName
+                version project.version
+
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', "kmpp-logging $version - Multiplatform logging for Kotlin")
+                    root.children().last() + pomConfig
+                }
+
+                artifact sourceJar {
+                    classifier "sources"
+                }
+
+                artifact javadocJar {
+                    classifier "javadoc"
+                }
+            }
+        }
+    }
+
+    bintray {
+        user = System.getProperty('bintray.user')
+        key = System.getProperty('bintray.key')
+        publications = ['mavenProject']
+        pkg {
+            repo = 'kmpp-logging'
+            name = 'kmpp-logging'
+            userOrg = 'kmpp'
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/kmpp/kmpp-logging'
+            websiteUrl = 'https://github.com/kmpp/kmpp-logging'
+            issueTrackerUrl = 'https://github.com/kmpp/kmpp-logging/issues'
+
+            githubRepo = 'kmpp/kmpp-logging'
+            version {
+                name = project.version
+                desc = "kmpp-logging - Multiplatform logging for Kotlin"
+                released = new Date()
+            }
         }
     }
 }
