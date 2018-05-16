@@ -30,9 +30,9 @@ private fun initObjectLogger(obj: Any): KLogger {
 private fun String.removeCompanionSuffix() = this.removeSuffix("\$Companion")
 
 /**
- * Provides a top-level [logger] for use in Kotlin files, which has `"$Companion"`, `"Kt"`, and
- * other unwanted noise removed from its standard logger prefix. Intended to be used to provide a
- * static logger as a top-level property:
+ * Provides a top-level [logger][KLogger] for use in Kotlin files, which has `"$Companion"`,
+ * `"Kt"`, and other unwanted noise removed from its standard logger prefix. Intended to be used to
+ * provide a static logger as a top-level property:
  * ```
  * private val logger = initTopLevelLogger {}
  * ```

@@ -3,7 +3,6 @@ buildscript {
 
     repositories {
         maven { url "https://dl.bintray.com/kotlin/kotlin-dev" }
-        maven { url "https://jitpack.io" }
         mavenCentral()
         jcenter()
     }
@@ -16,7 +15,7 @@ buildscript {
 
 allprojects {
     group 'io.github.kmulti'
-    version '1.2.31'
+    version '1.2.41'
 
     repositories {
         mavenCentral()

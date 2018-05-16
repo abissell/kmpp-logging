@@ -1,3 +1,3 @@
 ext.kotlin_version = '1.2.41'
-ext.klogging_version = '1.2.31'
+ext.klogging_version = '1.2.41'
 ext.slf4j_simple_version = '1.7.25'

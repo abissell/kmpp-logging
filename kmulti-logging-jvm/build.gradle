@@ -3,7 +3,7 @@ apply plugin: 'kotlin-platform-jvm'
 repositories {
     mavenCentral()
     jcenter()
-    maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/kmulti/klogging" }
 }
 
 sourceSets {
@@ -13,7 +13,7 @@ sourceSets {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "com.github.lewik.klogging:klogging.jvm:$klogging_version"
+    compile "io.github.kmulti:klogging.jvm:$klogging_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.slf4j:slf4j-simple:$slf4j_simple_version"
