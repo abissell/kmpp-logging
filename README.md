@@ -14,17 +14,25 @@ repositories {
 Use these dependencies per Kotlin module respectively:
 
 ```
-compile 'io.github.kmulti:kmulti-logging-common:1.2.41'
-compile 'io.github.kmulti:kmulti-logging-js:1.2.41'
-compile 'io.github.kmulti:kmulti-logging-jvm:1.2.41'
+compile 'io.github.kmulti:kmulti-logging-common:1.2.41.1'
+compile 'io.github.kmulti:kmulti-logging-js:1.2.41.1'
+compile 'io.github.kmulti:kmulti-logging-jvm:1.2.41.1'
 ```
 
 ## Usage
 
-Add a logger to a class using a companion object which inherits from `Log`:
+Add a logger to a class using a companion object which inherits from `CompanionLogger`:
 
 ```kotlin
-companion object : Log() {}
+companion object : CompanionLogger()
+```
+
+Add a logger to a class using a field on a companion object:
+
+```kotlin
+companion object {
+    private val logger = companionLogger {}
+}
 ```
 
 Create a logger as a property for use in top-level functions:

@@ -8,49 +8,51 @@ import klogging.KLoggers
  */
 
 /**
- * Provides a [logger] for use in an extending class, which has `"$Companion"` and other unwanted
- * noise removed from its standard logger prefix. Intended to be used by companion objects to
- * provide a static logger for any given class implementation:
+ * Provides a [logger] for use in an extending `companion object`, which has `"$Companion"` and
+ * other unwanted noise removed from its standard logger prefix. Intended to be used to provide a
+ * static logger for any given class:
  * ```
- * companion object : Log() {}
+ * companion object : CompanionLogger()
  * ```
  */
-abstract class Log {
+abstract class CompanionLogger {
     @Suppress("LeakingThis")
     val logger: KLogger = initObjectLogger(this)
 }
 
+/**
+ * Provides a [logger][KLogger] for use as a field on `companion object`, which has `"$Companion"`
+ * and other unwanted noise removed from its standard logger prefix. Intended to be used to provide
+ * a static logger for any given class:
+ * ```
+ * companion object {
+ *     val logger = companionLogger {}
+ * }
+ * ```
+ */
+fun companionLogger(obj: Any): KLogger = initObjectLogger(obj)
+
 private fun initObjectLogger(obj: Any): KLogger {
     val className = obj::class.toString()
         .removeCommonPrefixAndSuffix()
-        .removeCompanionSuffix()
+        .substringBefore("\$Companion")
     return KLoggers.logger(className)
 }
-
-private fun String.removeCompanionSuffix() = this.removeSuffix("\$Companion")
 
 /**
- * Provides a top-level [logger][KLogger] for use in Kotlin files, which has `"$Companion"`,
- * `"Kt"`, and other unwanted noise removed from its standard logger prefix. Intended to be used to
+ * Provides a top-level [logger][KLogger] for use in Kotlin files, which has the numeral suffix,
+ * `"Kt$"`, and other unwanted noise removed from its standard logger prefix. Intended to be used to
  * provide a static logger as a top-level property:
  * ```
- * private val logger = initTopLevelLogger {}
+ * private val logger = topLevelLogger {}
  * ```
  */
-fun initTopLevelLogger(obj: Any): KLogger {
+fun topLevelLogger(obj: Any): KLogger {
     val className = obj::class.toString()
         .removeCommonPrefixAndSuffix()
-        .removeNumeralSuffix()
-        .removeLoggerNameSuffix()
-        .removeKtSuffix()
+        .substringBefore("Kt\$")
     return KLoggers.logger(className)
 }
-
-private fun String.removeNumeralSuffix() = this.substringBeforeLast('$')
-
-private fun String.removeLoggerNameSuffix() = this.substringBeforeLast('$')
-
-private fun String.removeKtSuffix() = this.substringBefore("Kt")
 
 private fun String.removeCommonPrefixAndSuffix() =
     this.removePrefix("class ").removeSuffix(" (Kotlin reflection is not available)")
