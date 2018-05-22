@@ -38,7 +38,7 @@ companion object {
 Create a logger as a property for use in top-level functions:
 
 ```kotlin
-private val logger = initTopLevelLogger {}
+private val logger = topLevelLogger {}
 ```
 
 The standard logging prefixes are found and applied automatically.
